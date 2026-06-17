@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayanokoji Self-Development Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --panel: #0d1117;
+    --border: #1a2332;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --text: #c9d1d9;
+    --muted: #4a5568;
+    --white: #e6edf3;
+    --danger: #ff4444;
+    --success: #00ff88;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+    background-image:
+      radial-gradient(ellipse at 10% 0%, rgba(0,212,255,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 100%, rgba(255,107,53,0.04) 0%, transparent 50%);
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 30px 0 20px;
+    position: relative;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 30px;
+    background: linear-gradient(to bottom, transparent, var(--accent));
+  }
+
+  .header-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 6vw, 56px);
+    letter-spacing: 6px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .header h1 span { color: var(--accent); }
+
+  .header-quote {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-top: 10px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  /* WEEK SELECTOR */
+  .week-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 28px 0 20px;
+  }
+
+  .week-nav button {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    width: 36px; height: 36px;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'Share Tech Mono', monospace;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  .week-nav button:hover { background: var(--accent); color: var(--bg); }
+
+  .week-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: var(--white);
+    min-width: 140px;
+    text-align: center;
+  }
+
+  /* PILLARS */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .pillar-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .pillar-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--pillar-color);
+  }
+
+  .pillar-icon {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+
+  .pillar-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .pillar-score-display {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 28px;
+    color: var(--pillar-color);
+    margin-bottom: 8px;
+  }
+
+  .score-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 4px;
+    background: var(--border);
+    outline: none;
+    cursor: pointer;
+  }
+
+  .score-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    background: var(--pillar-color);
+    cursor: pointer;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+
+  /* DAILY TRACKER */
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 4px;
+    color: var(--white);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .day-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 10px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .day-card.active {
+    border-color: var(--accent);
+    background: rgba(0,212,255,0.05);
+  }
+
+  .day-card.today {
+    border-color: var(--accent2);
+  }
+
+  .day-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .day-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .task-dot {
+    width: 100%;
+    height: 5px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.3;
+  }
+
+  .task-dot.done { opacity: 1; }
+
+  /* HABITS TABLE */
+  .habits-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+
+  .habits-table th {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .habits-table td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(26,35,50,0.5);
+    vertical-align: middle;
+  }
+
+  .habits-table tr:hover td { background: rgba(0,212,255,0.02); }
+
+  .habit-name {
+    color: var(--white);
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .habit-sub {
+    color: var(--muted);
+    font-size: 11px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .check-grid {
+    display: flex;
+    gap: 5px;
+  }
+
+  .check-box {
+    width: 22px; height: 22px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    color: transparent;
+    clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px));
+  }
+
+  .check-box.checked {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+
+  /* JOURNAL */
+  .journal-section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 24px;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+
+  .journal-q {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .journal-input {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    padding: 10px;
+    resize: vertical;
+    min-height: 60px;
+    margin-bottom: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .journal-input:focus { border-color: var(--accent); }
+
+  /* PROGRESS BAR */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .progress-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    width: 100px;
+    flex-shrink: 0;
+  }
+
+  .progress-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    transition: width 0.4s ease;
+    position: relative;
+  }
+
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0;
+    width: 4px; height: 100%;
+    background: white;
+    opacity: 0.5;
+  }
+
+  .progress-pct {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--white);
+    width: 36px;
+    text-align: right;
+  }
+
+  /* SAVE BUTTON */
+  .save-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 30px;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .save-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .save-confirm {
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--success);
+    letter-spacing: 2px;
+    height: 20px;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  /* MONTH HEATMAP */
+  .heatmap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .heatmap-week {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 10px;
+    text-align: center;
+  }
+
+  .heatmap-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .heatmap-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    color: var(--white);
+  }
+
+  .heatmap-bar {
+    height: 4px;
+    background: var(--border);
+    margin-top: 6px;
+    overflow: hidden;
+  }
+
+  .heatmap-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--accent), var(--accent2));
+    transition: width 0.5s ease;
+  }
+
+  /* RULES PANEL */
+  .rules-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+
+  .rule-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(26,35,50,0.5);
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .rule-item:last-child { border-bottom: none; }
+
+  .rule-num {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--accent2);
+    font-size: 11px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .days-grid { grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .check-box { width: 18px; height: 18px; font-size: 10px; }
+    .habits-table th:nth-child(n+3), .habits-table td:nth-child(n+3) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div style="max-width: 860px; margin: 0 auto;">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-sub">// PERSONAL DEVELOPMENT SYSTEM //</div>
+    <h1>AYAN<span>OKOJI</span> TRACKER</h1>
+    <div class="header-quote">"Emotion is a vulnerability. Discipline is absolute."</div>
+  </div>
+
+  <!-- WEEK NAV -->
+  <div class="week-nav">
+    <button onclick="changeWeek(-1)">‹</button>
+    <div class="week-label" id="weekLabel">WEEK 1</div>
+    <button onclick="changeWeek(1)">›</button>
+  </div>
+
+  <!-- PILLARS -->
+  <div class="section-title">PILLAR SCORES</div>
+  <div class="pillars-grid" id="pillarsGrid"></div>
+
+  <!-- DAILY TASKS -->
+  <div class="section-title">DAILY PROTOCOL</div>
+  <div class="days-grid" id="daysGrid"></div>
+
+  <!-- HABITS TABLE -->
+  <div class="section-title">HABIT LOG</div>
+  <table class="habits-table">
+    <thead>
+      <tr>
+        <th>HABIT</th>
+        <th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th><th>SUN</th>
+      </tr>
+    </thead>
+    <tbody id="habitsBody"></tbody>
+  </table>
+
+  <!-- WEEKLY PROGRESS -->
+  <div class="section-title">WEEKLY COMPLETION</div>
+  <div id="progressBars" style="margin-bottom: 24px;"></div>
+
+  <!-- JOURNAL -->
+  <div class="section-title">NIGHTLY JOURNAL</div>
+  <div class="journal-section">
+    <div class="journal-q">// 01 — What did I handle well today and why?</div>
+    <textarea class="journal-input" id="j1" placeholder="Observe. Reflect. Record."></textarea>
+    <div class="journal-q">// 02 — Where did I react emotionally instead of logically?</div>
+    <textarea class="journal-input" id="j2" placeholder="Identify the weakness. Eliminate it."></textarea>
+    <div class="journal-q">// 03 — What did I observe about someone today that I didn't expect?</div>
+    <textarea class="journal-input" id="j3" placeholder="People are data. Collect it."></textarea>
+  </div>
+
+  <!-- MONTH OVERVIEW -->
+  <div class="section-title">MONTHLY OVERVIEW</div>
+  <div class="heatmap" id="heatmap"></div>
+
+  <!-- SAVE -->
+  <button class="save-btn" onclick="saveData()">⬡ SAVE PROGRESS ⬡</button>
+  <div class="save-confirm" id="saveConfirm">// DATA SAVED SUCCESSFULLY //</div>
+
+  <!-- SILENT RULES -->
+  <div class="section-title">THE SILENT RULES</div>
+  <div class="rules-panel" id="rulesPanel"></div>
+
+</div>
+
+<script>
+const PILLARS = [
+  { name: "Strategic Thinking", icon: "♟", color: "#00d4ff" },
+  { name: "Emotional Control", icon: "🧘", color: "#a78bfa" },
+  { name: "People Reading", icon: "👁", color: "#34d399" },
+  { name: "Physical Discipline", icon: "⚡", color: "#ff6b35" },
+];
+
+const HABITS = [
+  { name: "Guitar Practice", sub: "25 min — all 3 blocks" },
+  { name: "Reading", sub: "15–20 min" },
+  { name: "Chess Puzzle", sub: "5–10 min" },
+  { name: "Morning Planning", sub: "5 min silent focus" },
+  { name: "Nightly Journal", sub: "3 questions" },
+  { name: "Physical Training", sub: "15 min bodyweight" },
+  { name: "5-Second Rule", sub: "Pause before reacting" },
+];
+
+const DAYS = ["MON","TUE","WED","THU","FRI","SAT","SUN"];
+const RULES = [
+  "Talk less than you think you should.",
+  "Never show your full effort. Let results speak.",
+  "Always be the most prepared person in the room.",
+  "Observe before acting. Watch first, then move.",
+  "Control your face. Neutral is powerful.",
+  "Never brag. Let others discover your abilities.",
+];
+
+const PILLAR_COLORS = ["#00d4ff","#a78bfa","#34d399","#ff6b35"];
+
+let state = JSON.parse(localStorage.getItem('ayano_state') || 'null') || {
+  currentWeek: 1,
+  weeks: {}
+};
+
+function getWeekKey() { return `w${state.currentWeek}`; }
+
+function getWeekData() {
+  if (!state.weeks[getWeekKey()]) {
+    state.weeks[getWeekKey()] = {
+      pillars: [5,5,5,5],
+      habits: HABITS.map(() => Array(7).fill(false)),
+      journal: ["","",""]
+    };
+  }
+  return state.weeks[getWeekKey()];
+}
+
+function saveData() {
+  // load journal
+  const wd = getWeekData();
+  wd.journal[0] = document.getElementById('j1').value;
+  wd.journal[1] = document.getElementById('j2').value;
+  wd.journal[2] = document.getElementById('j3').value;
+  localStorage.setItem('ayano_state', JSON.stringify(state));
+  const el = document.getElementById('saveConfirm');
+  el.style.opacity = 1;
+  setTimeout(() => el.style.opacity = 0, 2500);
+}
+
+function changeWeek(dir) {
+  saveData();
+  state.currentWeek = Math.max(1, Math.min(24, state.currentWeek + dir));
+  render();
+}
+
+function renderPillars() {
+  const wd = getWeekData();
+  const g = document.getElementById('pillarsGrid');
+  g.innerHTML = PILLARS.map((p, i) => `
+    <div class="pillar-card" style="--pillar-color:${p.color}">
+      <div class="pillar-icon">${p.icon}</div>
+      <div class="pillar-name">${p.name}</div>
+      <div class="pillar-score-display" id="pscore${i}">${wd.pillars[i]}<span style="font-size:14px;color:var(--muted)">/10</span></div>
+      <input type="range" class="score-slider" min="1" max="10" value="${wd.pillars[i]}"
+        style="accent-color:${p.color}"
+        oninput="updatePillar(${i}, this.value)"
+      />
+    </div>
+  `).join('');
+}
+
+function updatePillar(i, val) {
+  getWeekData().pillars[i] = parseInt(val);
+  document.getElementById(`pscore${i}`).innerHTML = `${val}<span style="font-size:14px;color:var(--muted)">/10</span>`;
+  renderHeatmap();
+}
+
+function renderDays() {
+  const g = document.getElementById('daysGrid');
+  const today = new Date().getDay();
+  const todayIdx = today === 0 ? 6 : today - 1;
+  g.innerHTML = DAYS.map((d, di) => {
+    const isToday = di === todayIdx;
+    const wd = getWeekData();
+    const dots = HABITS.map((h, hi) => `
+      <div class="task-dot ${wd.habits[hi][di] ? 'done' : ''}"
+        style="background:${PILLAR_COLORS[hi % 4]}"
+        onclick="toggleHabit(${hi},${di});event.stopPropagation()"
+        title="${h.name}">
+      </div>
+    `).join('');
+    return `
+      <div class="day-card ${isToday ? 'today' : ''}">
+        <div class="day-name">${d}</div>
+        <div class="day-tasks">${dots}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleHabit(hi, di) {
+  const wd = getWeekData();
+  wd.habits[hi][di] = !wd.habits[hi][di];
+  renderDays();
+  renderHabits();
+  renderProgress();
+}
+
+function renderHabits() {
+  const wd = getWeekData();
+  const b = document.getElementById('habitsBody');
+  b.innerHTML = HABITS.map((h, hi) => `
+    <tr>
+      <td>
+        <div class="habit-name">${h.name}</div>
+        <div class="habit-sub">${h.sub}</div>
+      </td>
+      ${DAYS.map((d, di) => `
+        <td>
+          <div class="check-grid">
+            <div class="check-box ${wd.habits[hi][di] ? 'checked' : ''}"
+              onclick="toggleHabit(${hi},${di})"
+              style="${wd.habits[hi][di] ? `background:${PILLAR_COLORS[hi%4]};border-color:${PILLAR_COLORS[hi%4]}` : ''}">
+              ${wd.habits[hi][di] ? '✓' : ''}
+            </div>
+          </div>
+        </td>
+      `).join('')}
+    </tr>
+  `).join('');
+}
+
+function renderProgress() {
+  const wd = getWeekData();
+  const total = HABITS.length * 7;
+  const done = wd.habits.flat().filter(Boolean).length;
+  const pct = Math.round(done / total * 100);
+
+  const byHabit = HABITS.map((h, hi) => ({
+    name: h.name,
+    pct: Math.round(wd.habits[hi].filter(Boolean).length / 7 * 100),
+    color: PILLAR_COLORS[hi % 4]
+  }));
+
+  const el = document.getElementById('progressBars');
+  el.innerHTML = `
+    <div class="progress-row" style="margin-bottom:16px">
+      <div class="progress-label" style="color:var(--accent);font-size:12px">OVERALL</div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width:${pct}%;background:linear-gradient(to right,var(--accent),var(--accent2))"></div>
+      </div>
+      <div class="progress-pct" style="color:var(--accent)">${pct}%</div>
+    </div>
+    ${byHabit.map(h => `
+      <div class="progress-row">
+        <div class="progress-label">${h.name.split(' ')[0].toUpperCase()}</div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width:${h.pct}%;background:${h.color}"></div>
+        </div>
+        <div class="progress-pct">${h.pct}%</div>
+      </div>
+    `).join('')}
+  `;
+}
+
+function renderHeatmap() {
+  const el = document.getElementById('heatmap');
+  el.innerHTML = Array.from({length: 4}, (_,wi) => {
+    const wk = wi + 1;
+    const wd = state.weeks[`w${wk}`];
+    let score = 0;
+    if (wd) {
+      const habitScore = wd.habits.flat().filter(Boolean).length / (HABITS.length * 7) * 50;
+      const pillarScore = wd.pillars.reduce((a,b)=>a+b,0) / (10*4) * 50;
+      score = Math.round(habitScore + pillarScore);
+    }
+    const isCurrent = wk === state.currentWeek;
+    return `
+      <div class="heatmap-week" style="${isCurrent ? 'border-color:var(--accent)' : ''}">
+        <div class="heatmap-label">WEEK ${wk}</div>
+        <div class="heatmap-score" style="color:${isCurrent ? 'var(--accent)' : 'var(--white)'}">${score}</div>
+        <div class="heatmap-bar"><div class="heatmap-fill" style="width:${score}%"></div></div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderJournal() {
+  const wd = getWeekData();
+  document.getElementById('j1').value = wd.journal[0] || '';
+  document.getElementById('j2').value = wd.journal[1] || '';
+  document.getElementById('j3').value = wd.journal[2] || '';
+}
+
+function renderRules() {
+  document.getElementById('rulesPanel').innerHTML = RULES.map((r, i) => `
+    <div class="rule-item">
+      <span class="rule-num">0${i+1}</span>
+      <span>${r}</span>
+    </div>
+  `).join('');
+}
+
+function render() {
+  document.getElementById('weekLabel').textContent = `WEEK ${state.currentWeek}`;
+  renderPillars();
+  renderDays();
+  renderHabits();
+  renderProgress();
+  renderHeatmap();
+  renderJournal();
+  renderRules();
+}
+
+render();
+
+// auto-save journal on input
+['j1','j2','j3'].forEach((id,i) => {
+  document.getElementById(id).addEventListener('input', e => {
+    getWeekData().journal[i] = e.target.value;
+  });
+});
+</script>
+</body>
+</html>
