@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Catholic Companion</title>
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        background: #f4f6f8;
+        color: #333;
+        transition: 0.3s;
+    }
+
+    header {
+        background: #2c3e50;
+        color: white;
+        padding: 20px;
+        font-size: 24px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .card {
+        background: white;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 10px;
+        background: #3498db;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background: #2980b9;
+    }
+
+    .dark {
+        background: #121212;
+        color: white;
+    }
+
+    .dark .card {
+        background: #1e1e1e;
+    }
+</style>
+
+</head>
+<body>
+
+<header>🙏 Catholic Companion</header>
+
+<div class="container">
+
+    <!-- Prayer -->
+    <div class="card">
+        <h2>Prayer</h2>
+        <p id="prayer">Lord, guide my steps today. Amen.</p>
+        <button onclick="newPrayer()">New Prayer</button>
+    </div>
+
+    <!-- Bible Verse -->
+    <div class="card">
+        <h2>Bible Verse</h2>
+        <p id="verse">"I can do all things through Christ who strengthens me." - Philippians 4:13</p>
+        <button onclick="newVerse()">New Verse</button>
+    </div>
+
+    <!-- Rosary -->
+    <div class="card">
+        <h2>Rosary Guide</h2>
+        <p id="rosary">Start with the Sign of the Cross, then Apostles' Creed...</p>
+        <button onclick="nextStep()">Next Step</button>
+    </div>
+
+    <!-- Dark Mode -->
+    <div class="card">
+        <h2>Settings</h2>
+        <button onclick="toggleDark()">Toggle Dark Mode 🌙</button>
+    </div>
+
+</div>
+
+<script>
+    const prayers = [
+        "Our Father, who art in heaven...",
+        "Hail Mary, full of grace...",
+        "Glory be to the Father...",
+        "Lord, make me an instrument of your peace...",
+        "Sacred Heart of Jesus, I trust in You..."
+    ];
+
+    const verses = [
+        '"The Lord is my shepherd; I shall not want." - Psalm 23:1',
+        '"Be strong and courageous." - Joshua 1:9',
+        '"With God all things are possible." - Matthew 19:26',
+        '"Trust in the Lord with all your heart." - Proverbs 3:5',
+        '"Rejoice always." - 1 Thessalonians 5:16'
+    ];
+
+    const rosarySteps = [
+        "Make the Sign of the Cross",
+        "Say the Apostles' Creed",
+        "Pray one Our Father",
+        "Pray three Hail Marys",
+        "Pray the Glory Be",
+        "Announce the Mystery",
+        "Pray one Our Father",
+        "Pray ten Hail Marys",
+        "Pray Glory Be",
+        "Repeat for all decades"
+    ];
+
+    function newPrayer() {
+        let random = Math.floor(Math.random() * prayers.length);
+        document.getElementById("prayer").innerText = prayers[random];
+    }
+
+    function newVerse() {
+        let random = Math.floor(Math.random() * verses.length);
+        document.getElementById("verse").innerText = verses[random];
+    }
+
+    let step = 0;
+    function nextStep() {
+        document.getElementById("rosary").innerText = rosarySteps[step];
+        step = (step + 1) % rosarySteps.length;
+    }
+
+    function toggleDark() {
+        document.body.classList.toggle("dark");
+    }
+</script>
+
+</body>
+</html>

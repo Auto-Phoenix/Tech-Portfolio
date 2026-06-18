@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SKY ENTERPRISE — Ngaoundéré HQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --sky:#00c2ff;
+  --sky2:#0080cc;
+  --gold:#ffd700;
+  --orange:#ff6b00;
+  --dark:#040d14;
+  --panel:#071520;
+  --panel2:#0a1e2e;
+  --text:#e0f0ff;
+  --muted:#6a9bb5;
+  --green:#00ff9d;
+  --red:#ff4060;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;}
+
+/* ── SCANLINE OVERLAY ── */
+body::after{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,194,255,0.015) 2px,rgba(0,194,255,0.015) 4px);
+  pointer-events:none;z-index:9999;
+}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  background:radial-gradient(ellipse at 50% 30%,#0a2a4a 0%,#040d14 70%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:2rem;position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,194,255,0.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,194,255,0.07) 1px,transparent 1px);
+  background-size:60px 60px;
+  animation:gridPulse 4s ease-in-out infinite;
+}
+@keyframes gridPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.hero-glow{
+  position:absolute;top:20%;left:50%;transform:translateX(-50%);
+  width:600px;height:300px;
+  background:radial-gradient(ellipse,rgba(0,194,255,0.15),transparent 70%);
+  pointer-events:none;
+}
+.badge{
+  font-family:'Space Mono',monospace;
+  font-size:.6rem;letter-spacing:.4em;color:var(--sky);
+  border:1px solid rgba(0,194,255,0.3);
+  padding:.4rem 1.2rem;border-radius:2px;margin-bottom:2rem;
+  animation:fadeUp .8s ease both;
+}
+.hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,14vw,10rem);
+  line-height:.9;color:white;letter-spacing:.05em;
+  animation:fadeUp .8s .15s ease both;
+}
+.hero h1 span{color:var(--sky);}
+.hero-sub{
+  font-size:clamp(1rem,2.5vw,1.3rem);
+  color:var(--muted);letter-spacing:.15em;font-weight:300;
+  margin-top:1rem;
+  animation:fadeUp .8s .3s ease both;
+}
+.hero-location{
+  margin-top:2.5rem;display:flex;align-items:center;gap:.8rem;
+  font-family:'Space Mono',monospace;font-size:.7rem;color:var(--gold);
+  letter-spacing:.2em;
+  animation:fadeUp .8s .45s ease both;
+}
+.loc-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.scroll-cue{
+  position:absolute;bottom:2rem;
+  display:flex;flex-direction:column;align-items:center;gap:.4rem;
+  color:var(--muted);font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.3em;
+  animation:fadeUp .8s .8s ease both;
+}
+.scroll-line{width:1px;height:40px;background:linear-gradient(var(--sky),transparent);animation:pulse2 2s infinite;}
+@keyframes pulse2{0%,100%{transform:scaleY(1);opacity:1}50%{transform:scaleY(.4);opacity:.3}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION ── */
+.section{padding:5rem 1.5rem;max-width:1300px;margin:0 auto;}
+.sec-label{
+  font-family:'Space Mono',monospace;font-size:.6rem;
+  letter-spacing:.4em;color:var(--sky);margin-bottom:.5rem;
+}
+.sec-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2rem,6vw,4rem);letter-spacing:.05em;
+  color:white;margin-bottom:.5rem;
+}
+.sec-desc{font-size:1rem;color:var(--muted);max-width:600px;line-height:1.7;margin-bottom:3rem;}
+
+/* ── STATS ROW ── */
+.stats-bar{
+  background:var(--panel);border:1px solid rgba(0,194,255,0.15);
+  display:flex;flex-wrap:wrap;gap:0;
+  margin-bottom:4rem;
+}
+.stat-item{
+  flex:1;min-width:150px;padding:1.5rem;
+  border-right:1px solid rgba(0,194,255,0.1);text-align:center;
+}
+.stat-item:last-child{border-right:none;}
+.stat-val{
+  font-family:'Bebas Neue',sans-serif;font-size:2.5rem;
+  color:var(--sky);line-height:1;
+}
+.stat-key{
+  font-family:'Space Mono',monospace;font-size:.55rem;
+  letter-spacing:.2em;color:var(--muted);margin-top:.3rem;
+}
+
+/* ── SITE PLAN ── */
+.site-plan-wrap{
+  background:var(--panel);border:1px solid rgba(0,194,255,0.2);
+  border-radius:4px;padding:2rem;margin-bottom:4rem;
+  overflow:auto;
+}
+.site-plan{
+  display:grid;
+  grid-template-columns: 180px 1fr 120px 1fr 120px;
+  grid-template-rows: auto auto 80px auto auto;
+  gap:8px;
+  min-width:760px;
+  font-family:'Space Mono',monospace;font-size:.65rem;
+}
+.sp-block{
+  border:1px solid;padding:1rem .8rem;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .2s;
+}
+.sp-block:hover{transform:translateY(-2px);box-shadow:0 0 20px currentColor;}
+.sp-block::before{
+  content:'';position:absolute;inset:0;
+  background:currentColor;opacity:.06;transition:opacity .2s;
+}
+.sp-block:hover::before{opacity:.12;}
+.sp-icon{font-size:1.6rem;margin-bottom:.4rem;}
+.sp-name{color:white;font-size:.7rem;letter-spacing:.1em;font-weight:700;line-height:1.3;}
+.sp-sub{color:inherit;font-size:.55rem;opacity:.7;margin-top:.2rem;letter-spacing:.05em;}
+
+/* color themes per zone */
+.zone-hall  {color:var(--gold);border-color:var(--gold);}
+.zone-music {color:var(--sky);border-color:var(--sky);}
+.zone-film  {color:var(--orange);border-color:var(--orange);}
+.zone-dance {color:#ff44cc;border-color:#ff44cc;}
+.zone-office{color:var(--green);border-color:var(--green);}
+.zone-lobby {color:var(--muted);border-color:var(--muted);}
+.zone-tech  {color:#aa88ff;border-color:#aa88ff;}
+.zone-roof  {color:#44ddff;border-color:#44ddff;}
+.zone-road  {color:#334455;border-color:#334455;background:rgba(0,0,0,.3);}
+
+/* grid placements */
+.sp-main-hall  {grid-column:1/6;grid-row:1;min-height:130px;}
+.sp-lobby      {grid-column:3;grid-row:2/4;}
+.sp-music-a    {grid-column:1;grid-row:2;}
+.sp-music-b    {grid-column:1;grid-row:3;}
+.sp-music-c    {grid-column:1;grid-row:4;}
+.sp-film-a     {grid-column:2;grid-row:2/4;}
+.sp-film-b     {grid-column:2;grid-row:4;}
+.sp-dance      {grid-column:4;grid-row:2/4;}
+.sp-offices    {grid-column:5;grid-row:2;}
+.sp-exec       {grid-column:5;grid-row:3;}
+.sp-conf       {grid-column:5;grid-row:4;}
+.sp-tech       {grid-column:4;grid-row:4;}
+.sp-parking    {grid-column:1/6;grid-row:5;}
+
+/* ── FLOOR PLANS ── */
+.floors{display:flex;flex-direction:column;gap:2rem;margin-bottom:4rem;}
+.floor-tab{
+  background:var(--panel);border:1px solid rgba(0,194,255,0.15);
+  border-radius:4px;overflow:hidden;
+}
+.floor-header{
+  background:var(--panel2);padding:1.2rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;
+  cursor:pointer;user-select:none;
+  border-bottom:1px solid rgba(0,194,255,.1);
+  transition:background .2s;
+}
+.floor-header:hover{background:#0e2a3e;}
+.floor-num{
+  font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--sky);
+  min-width:60px;text-align:center;
+}
+.floor-info{flex:1;}
+.floor-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.4rem;
+  color:white;letter-spacing:.05em;
+}
+.floor-rooms{
+  font-family:'Space Mono',monospace;font-size:.55rem;
+  color:var(--muted);letter-spacing:.1em;margin-top:.2rem;
+}
+.floor-toggle{
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  color:var(--sky);transition:transform .3s;
+}
+.floor-toggle.open{transform:rotate(90deg);}
+.floor-body{
+  display:none;padding:1.5rem;
+}
+.floor-body.open{display:block;}
+.floor-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:1rem;
+}
+.room-card{
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.3);
+  padding:1.2rem 1rem;border-radius:2px;
+  transition:border-color .2s,transform .2s;
+}
+.room-card:hover{border-color:var(--sky);transform:translateY(-2px);}
+.room-icon{font-size:1.4rem;margin-bottom:.5rem;}
+.room-name{
+  font-weight:700;font-size:.9rem;color:white;
+  letter-spacing:.05em;margin-bottom:.3rem;
+}
+.room-dim{
+  font-family:'Space Mono',monospace;font-size:.55rem;
+  color:var(--gold);letter-spacing:.1em;margin-bottom:.4rem;
+}
+.room-desc{font-size:.8rem;color:var(--muted);line-height:1.6;}
+
+/* ── DEPARTMENTS ── */
+.dept-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1.5rem;margin-bottom:4rem;
+}
+.dept-card{
+  background:var(--panel);border:1px solid rgba(0,194,255,.12);
+  border-radius:4px;padding:1.8rem;
+  position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s;
+}
+.dept-card:hover{border-color:var(--sky);transform:translateY(-3px);}
+.dept-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--accent,var(--sky));
+}
+.dept-icon{font-size:2rem;margin-bottom:.8rem;}
+.dept-name{
+  font-family:'Bebas Neue',sans-serif;font-size:1.5rem;
+  letter-spacing:.05em;color:white;margin-bottom:.4rem;
+}
+.dept-lead{
+  font-family:'Space Mono',monospace;font-size:.55rem;
+  color:var(--gold);letter-spacing:.15em;margin-bottom:.8rem;
+}
+.dept-desc{font-size:.9rem;color:var(--muted);line-height:1.7;}
+
+/* ── ORG CHART ── */
+.org-tree{text-align:center;padding:2rem 1rem;overflow-x:auto;}
+.org-level{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;position:relative;}
+.org-node{
+  background:var(--panel2);border:1px solid rgba(0,194,255,.25);
+  padding:.8rem 1.2rem;border-radius:3px;min-width:140px;
+  font-family:'Space Mono',monospace;font-size:.6rem;text-align:center;
+  transition:border-color .2s,transform .2s;
+  position:relative;
+}
+.org-node:hover{border-color:var(--sky);transform:scale(1.04);}
+.org-node.top{border-color:var(--gold);background:rgba(255,215,0,.06);}
+.org-node.top .on-title{color:var(--gold);}
+.on-title{color:var(--sky);font-weight:700;letter-spacing:.08em;margin-bottom:.2rem;}
+.on-sub{color:var(--muted);letter-spacing:.05em;}
+.org-line{
+  width:1px;height:24px;background:rgba(0,194,255,.3);
+  margin:0 auto -8px;
+}
+.org-branch{
+  display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;
+  position:relative;margin-bottom:.5rem;
+}
+.org-branch::before{
+  content:'';position:absolute;top:0;left:20%;right:20%;
+  height:1px;background:rgba(0,194,255,.2);
+}
+
+/* ── TECH SPECS ── */
+.specs-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:1rem;margin-bottom:4rem;
+}
+.spec-item{
+  background:var(--panel);border-left:3px solid var(--sky);
+  padding:1.2rem;
+}
+.spec-cat{
+  font-family:'Space Mono',monospace;font-size:.55rem;
+  color:var(--sky);letter-spacing:.2em;margin-bottom:.5rem;
+}
+.spec-list{list-style:none;}
+.spec-list li{
+  font-size:.85rem;color:var(--muted);padding:.2rem 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  display:flex;align-items:center;gap:.5rem;
+}
+.spec-list li::before{content:'›';color:var(--gold);}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--panel);border-top:1px solid rgba(0,194,255,.1);
+  padding:3rem 2rem;text-align:center;
+}
+footer h3{
+  font-family:'Bebas Neue',sans-serif;font-size:2.5rem;
+  color:var(--sky);letter-spacing:.1em;
+}
+footer p{font-size:.9rem;color:var(--muted);margin-top:.5rem;font-style:italic;}
+
+/* tooltip */
+.tooltip{
+  position:fixed;background:var(--panel2);border:1px solid var(--sky);
+  padding:.8rem 1.2rem;border-radius:3px;pointer-events:none;
+  font-family:'Space Mono',monospace;font-size:.65rem;color:var(--text);
+  z-index:1000;display:none;max-width:220px;line-height:1.6;
+}
+
+@media(max-width:600px){
+  .site-plan{min-width:560px;}
+  .stats-bar{flex-direction:column;}
+  .stat-item{border-right:none;border-bottom:1px solid rgba(0,194,255,.1);}
+}
+</style>
+</head>
+<body>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip"></div>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="badge">◈ ARCHITECTURAL BLUEPRINT — CLASSIFIED INTERNAL DOC ◈</div>
+  <h1><span>SKY</span><br>ENTERPRISE</h1>
+  <div class="hero-sub">NGAOUNDÉRÉ HEADQUARTERS · CAMEROON · AFRICA</div>
+  <div class="hero-location">
+    <div class="loc-dot"></div>
+    7°19'N 13°35'E · ADAMAWA REGION · ELEVATION 1,104M
+  </div>
+  <div class="scroll-cue">
+    <div class="scroll-line"></div>
+    EXPLORE BLUEPRINT
+  </div>
+</section>
+
+<!-- ═══════════ OVERVIEW ═══════════ -->
+<div class="section">
+  <div class="sec-label">◈ PROJECT OVERVIEW</div>
+  <div class="sec-title">THE VISION</div>
+  <div class="sec-desc">A world-class entertainment and creative empire, rooted in Cameroon and built to launch African talent onto the global stage. Sky Enterprise HQ is designed as a living ecosystem — every room breathes purpose.</div>
+
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-val">5</div><div class="stat-key">FLOORS ABOVE GROUND</div></div>
+    <div class="stat-item"><div class="stat-val">12,000<span style="font-size:1.2rem">m²</span></div><div class="stat-key">TOTAL BUILT AREA</div></div>
+    <div class="stat-item"><div class="stat-val">4</div><div class="stat-key">RECORDING STUDIOS</div></div>
+    <div class="stat-item"><div class="stat-val">3</div><div class="stat-key">FILM / SHOW SETS</div></div>
+    <div class="stat-item"><div class="stat-val">2,500</div><div class="stat-key">HALL CAPACITY (SEATS)</div></div>
+    <div class="stat-item"><div class="stat-val">1</div><div class="stat-key">ROOFTOP TERRACE</div></div>
+  </div>
+
+  <!-- SITE PLAN -->
+  <div class="sec-label">◈ SITE MASTER PLAN — BIRD'S EYE VIEW</div>
+  <div class="sec-title">COMPOUND LAYOUT</div>
+  <div class="sec-desc">Hover over each zone to explore. The compound is oriented with the Grand Hall as the anchor — visible from Ngaoundéré's main boulevard.</div>
+
+  <div class="site-plan-wrap">
+    <div class="site-plan">
+
+      <!-- GRAND HALL SPANS FULL WIDTH TOP -->
+      <div class="sp-block zone-hall sp-main-hall"
+        data-tip="GRAND HALL / AWARDS ARENA — 2,500 seat capacity. Retractable stage, LED ceiling rig, broadcast-ready. Ground floor + balcony level. Hosts award ceremonies, concerts, film premieres, and major events.">
+        <div class="sp-icon">🏆</div>
+        <div class="sp-name">GRAND HALL — SKY ARENA</div>
+        <div class="sp-sub">2,500 SEATS · AWARDS · CONCERTS · PREMIERES · BROADCASTS</div>
+      </div>
+
+      <!-- LEFT COLUMN: MUSIC STUDIOS -->
+      <div class="sp-block zone-music sp-music-a"
+        data-tip="MUSIC STUDIO A — 'EDEN' — Flagship 120m² recording suite. SSL console, isolation booth, live room for full band (up to 12 musicians). Acoustic treatment by Kinetics Noise Control spec.">
+        <div class="sp-icon">🎙️</div>
+        <div class="sp-name">STUDIO A</div>
+        <div class="sp-sub">"EDEN" · FLAGSHIP</div>
+      </div>
+
+      <div class="sp-block zone-music sp-music-b"
+        data-tip="MUSIC STUDIO B — 'ATLAS' — Mid-size 80m² studio. Ideal for vocal production, hip-hop, afrobeats, and Cameroonian makossa. Top-spec isolation + mixing suite adjacent.">
+        <div class="sp-icon">🎧</div>
+        <div class="sp-name">STUDIO B</div>
+        <div class="sp-sub">"ATLAS" · PRODUCTION</div>
+      </div>
+
+      <div class="sp-block zone-music sp-music-c"
+        data-tip="MUSIC STUDIO C — 'EMBER' — Compact 50m² writing and demo room. Ideal for songwriters, podcasters, and voiceover artists. Connects to the mixing suite via patch bay.">
+        <div class="sp-icon">🎵</div>
+        <div class="sp-name">STUDIO C</div>
+        <div class="sp-sub">"EMBER" · DEMO & WRITING</div>
+      </div>
+
+      <!-- FILM STUDIOS -->
+      <div class="sp-block zone-film sp-film-a"
+        data-tip="FILM STUDIO A — 'HORIZON SET' — 400m² clear-span soundstage. Green screen walls, movable lighting grid, chromakey floor option. Used for TV shows, movies, and music video production.">
+        <div class="sp-icon">🎬</div>
+        <div class="sp-name">FILM STAGE A</div>
+        <div class="sp-sub">HORIZON · 400m² SOUNDSTAGE</div>
+      </div>
+
+      <div class="sp-block zone-film sp-film-b"
+        data-tip="FILM STUDIO B — 'PULSE SET' — 200m² multi-purpose production room. Built-in news desk, talk-show set, and quick-reconfigure for reality TV formats. Includes makeup & green room adjacent.">
+        <div class="sp-icon">📺</div>
+        <div class="sp-name">FILM STAGE B</div>
+        <div class="sp-sub">PULSE · TV SHOWS & TALK</div>
+      </div>
+
+      <!-- CENTRAL LOBBY -->
+      <div class="sp-block zone-lobby sp-lobby"
+        data-tip="MAIN LOBBY & ATRIUM — The heart of Sky Enterprise. Double-height glass atrium with the Sky logo installation. Reception, artist check-in, VIP lounge access, and the Sky Enterprise store.">
+        <div class="sp-icon">🏢</div>
+        <div class="sp-name">SKY ATRIUM</div>
+        <div class="sp-sub">LOBBY · RECEPTION · VIP</div>
+      </div>
+
+      <!-- RIGHT SIDE: DANCE + OFFICES -->
+      <div class="sp-block zone-dance sp-dance"
+        data-tip="DANCE STUDIO COMPLEX — Three interconnected dance rooms totalling 350m². Sprung hardwood floors, ceiling-to-floor mirrors, ballet barres, modular PA system. Used for rehearsals, choreography classes, and auditions.">
+        <div class="sp-icon">💃</div>
+        <div class="sp-name">DANCE COMPLEX</div>
+        <div class="sp-sub">3 ROOMS · 350m² · SPRUNG FLOOR</div>
+      </div>
+
+      <div class="sp-block zone-office sp-offices"
+        data-tip="EXECUTIVE OFFICES — Floor 3 North Wing. CEO office with panoramic view of Ngaoundéré city. C-suite suites for CFO, CCO, A&R Director. Private boardroom with encrypted conferencing.">
+        <div class="sp-icon">👔</div>
+        <div class="sp-name">EXEC OFFICES</div>
+        <div class="sp-sub">CEO · CFO · DIRECTORS</div>
+      </div>
+
+      <div class="sp-block zone-office sp-exec"
+        data-tip="GENERAL OFFICES — Open-plan workspace for 80+ staff. A&R, Marketing, Legal, HR, Events, and Tech teams. Collaborative zones + focus pods + Sky café for staff.">
+        <div class="sp-icon">🗂️</div>
+        <div class="sp-name">GENERAL OFFICES</div>
+        <div class="sp-sub">80 DESKS · OPEN PLAN</div>
+      </div>
+
+      <div class="sp-block zone-office sp-conf"
+        data-tip="CONFERENCE SUITE — 3 meeting rooms (8, 20, and 50 capacity). Contract signing room with legal-grade AV recording. Sky Press Conference room with branded backdrop and livestream setup.">
+        <div class="sp-icon">📋</div>
+        <div class="sp-name">CONFERENCE SUITE</div>
+        <div class="sp-sub">3 ROOMS · PRESS · LEGAL</div>
+      </div>
+
+      <!-- TECH HUB -->
+      <div class="sp-block zone-tech sp-tech"
+        data-tip="TECH & BROADCAST HUB — Master control room for all studio feeds. Live broadcast capability (satellite uplink, internet streaming). Server room, IT support, and the Sky Digital streaming platform ops centre.">
+        <div class="sp-icon">🖥️</div>
+        <div class="sp-name">TECH HUB</div>
+        <div class="sp-sub">MCR · BROADCAST · SERVERS</div>
+      </div>
+
+      <!-- BASEMENT PARKING -->
+      <div class="sp-block zone-road sp-parking"
+        data-tip="BASEMENT LEVEL — 200-vehicle parking. VIP covered bays, artist loading dock, generator room, HVAC plant, and secure storage vaults for equipment.">
+        <div class="sp-icon">🚗</div>
+        <div class="sp-name">BASEMENT — PARKING & PLANT ROOMS</div>
+        <div class="sp-sub">200 VEHICLES · LOADING · GENERATORS · HVAC</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FLOOR BY FLOOR ═══════════ -->
+<div style="background:var(--panel2);padding:1rem 0;">
+<div class="section">
+  <div class="sec-label">◈ FLOOR BREAKDOWN</div>
+  <div class="sec-title">LEVEL BY LEVEL</div>
+  <div class="sec-desc">Click each floor to expand and explore every room, its dimensions, and purpose.</div>
+
+  <div class="floors">
+
+    <!-- BASEMENT -->
+    <div class="floor-tab">
+      <div class="floor-header" onclick="toggleFloor(this)">
+        <div class="floor-num">B1</div>
+        <div class="floor-info">
+          <div class="floor-title">BASEMENT — INFRASTRUCTURE LEVEL</div>
+          <div class="floor-rooms">PARKING · PLANT · VAULTS · LOADING</div>
+        </div>
+        <div class="floor-toggle">▶</div>
+      </div>
+      <div class="floor-body">
+        <div class="floor-grid">
+          <div class="room-card"><div class="room-icon">🚗</div><div class="room-name">VIP PARKING BAY</div><div class="room-dim">40 RESERVED SPACES</div><div class="room-desc">Covered, gated bays for artists, executives, and special guests with direct elevator access.</div></div>
+          <div class="room-card"><div class="room-icon">🚐</div><div class="room-name">GENERAL PARKING</div><div class="room-dim">160 SPACES</div><div class="room-desc">Staff and visitor parking. Secured with CCTV and barrier system.</div></div>
+          <div class="room-card"><div class="room-icon">📦</div><div class="room-name">LOADING DOCK</div><div class="room-dim">300m²</div><div class="room-desc">Oversized dock for stage equipment, film gear, and event freight. Direct lift to Grand Hall backstage.</div></div>
+          <div class="room-card"><div class="room-icon">⚡</div><div class="room-name">GENERATOR ROOM</div><div class="room-dim">150m²</div><div class="room-desc">Dual 1.5MW generators ensuring zero downtime during events or studio sessions.</div></div>
+          <div class="room-card"><div class="room-icon">❄️</div><div class="room-name">HVAC PLANT</div><div class="room-dim">200m²</div><div class="room-desc">Climate control for the entire building. Separate isolated HVAC zones for each studio to eliminate noise bleed.</div></div>
+          <div class="room-card"><div class="room-icon">🔒</div><div class="room-name">EQUIPMENT VAULT</div><div class="room-dim">80m²</div><div class="room-desc">Climate-controlled, fireproof vault for master tapes, cameras, expensive gear, and legal documents.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROUND FLOOR -->
+    <div class="floor-tab">
+      <div class="floor-header" onclick="toggleFloor(this)">
+        <div class="floor-num">G</div>
+        <div class="floor-info">
+          <div class="floor-title">GROUND FLOOR — PUBLIC & GRAND HALL</div>
+          <div class="floor-rooms">ATRIUM · GRAND HALL · DANCE · FILM STAGE A · MUSIC STUDIOS</div>
+        </div>
+        <div class="floor-toggle">▶</div>
+      </div>
+      <div class="floor-body">
+        <div class="floor-grid">
+          <div class="room-card"><div class="room-icon">🏛️</div><div class="room-name">SKY ATRIUM</div><div class="room-dim">600m² · 12M HIGH</div><div class="room-desc">Double-height glass entrance hall. The Sky logo installation in brushed gold greets every visitor. Reception desk, artist check-in, and a curated wall of Sky Enterprise alumni art.</div></div>
+          <div class="room-card"><div class="room-icon">🏆</div><div class="room-name">GRAND HALL — SKY ARENA</div><div class="room-dim">3,200m² · 2,500 SEATS</div><div class="room-desc">The crown jewel. Retractable stadium seating, 4K LED main stage, IMAX-grade projection, Dolby Atmos 7.1.4 surround. Hosts the annual Sky Awards, film premieres, concerts, and national events.</div></div>
+          <div class="room-card"><div class="room-icon">🎬</div><div class="room-name">FILM STAGE A — HORIZON</div><div class="room-dim">400m² SOUNDSTAGE</div><div class="room-desc">Clear-span film stage with 9m clear height. Full green screen, chromakey floor option, motorized lighting grid, and an adjoining production office and VFX corner.</div></div>
+          <div class="room-card"><div class="room-icon">💃</div><div class="room-name">DANCE STUDIO 1 — MAIN</div><div class="room-dim">180m²</div><div class="room-desc">Principal rehearsal room. Sprung hardwood floor (maple), floor-to-ceiling mirrors on two walls, full-perimeter barre, and a pro sound system for choreography sessions.</div></div>
+          <div class="room-card"><div class="room-icon">🩰</div><div class="room-name">DANCE STUDIO 2</div><div class="room-dim">100m²</div><div class="room-desc">Mid-size room for smaller groups, contemporary classes, and individual coaching. Connects to main studio via folding partition for combined use.</div></div>
+          <div class="room-card"><div class="room-icon">🛍️</div><div class="room-name">SKY ENTERPRISE STORE</div><div class="room-dim">120m²</div><div class="room-desc">Merch, artist albums, Cameroon cultural crafts. Doubles as a fan experience zone during events with autograph booths.</div></div>
+          <div class="room-card"><div class="room-icon">🍽️</div><div class="room-name">SKY CAFÉ & RESTAURANT</div><div class="room-dim">200m²</div><div class="room-desc">Open to public. Cameroonian cuisine meets contemporary dining. Serves staff, artists, and event guests. Full bar licensed for event nights.</div></div>
+          <div class="room-card"><div class="room-icon">🎭</div><div class="room-name">BACKSTAGE COMPLEX</div><div class="room-dim">400m²</div><div class="room-desc">Green rooms, makeup stations (20 chairs), wardrobe, production offices, and direct dock access. Holds up to 200 crew and artists simultaneously.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLOOR 1 -->
+    <div class="floor-tab">
+      <div class="floor-header" onclick="toggleFloor(this)">
+        <div class="floor-num">01</div>
+        <div class="floor-info">
+          <div class="floor-title">FLOOR 1 — PRODUCTION FLOOR</div>
+          <div class="floor-rooms">MUSIC STUDIOS · FILM STAGE B · POST-PRODUCTION · PODCAST</div>
+        </div>
+        <div class="floor-toggle">▶</div>
+      </div>
+      <div class="floor-body">
+        <div class="floor-grid">
+          <div class="room-card"><div class="room-icon">🎙️</div><div class="room-name">STUDIO A — EDEN</div><div class="room-dim">120m² FLAGSHIP</div><div class="room-desc">Sky's crown recording suite. SSL 9000 J console, live room for 12 musicians, isolation booth with floating floor, and a vocal booth with custom acoustic panels. Full-height glass between control and live room.</div></div>
+          <div class="room-card"><div class="room-icon">🎧</div><div class="room-name">STUDIO B — ATLAS</div><div class="room-dim">80m² PRODUCTION</div><div class="room-desc">Mid-tier studio tuned for afrobeats, makossa, bikutsi, and hip-hop. Neve 8078 console, full plug-in suite, outboard gear rack. Attached two-person isolation booth.</div></div>
+          <div class="room-card"><div class="room-icon">🎵</div><div class="room-name">STUDIO C — EMBER</div><div class="room-dim">50m² WRITING ROOM</div><div class="room-desc">Intimate production and writing suite. Digital workflow (Pro Tools + Ableton). Ideal for songwriters, beat-makers, voiceover artists, and commercial jingles.</div></div>
+          <div class="room-card"><div class="room-icon">🎤</div><div class="room-name">STUDIO D — PULSE</div><div class="room-dim">40m² PODCAST HUB</div><div class="room-desc">Four-person podcast and radio production suite. Broadcast-quality mics, soundproof walls, and live streaming integration with Sky's digital platforms.</div></div>
+          <div class="room-card"><div class="room-icon">📺</div><div class="room-name">FILM STAGE B — PULSE SET</div><div class="room-dim">200m²</div><div class="room-desc">Multi-format TV stage. Built-in news desk, talk-show sofa configuration, and reality TV quick-swap system. Makeup room and artist green room adjacent.</div></div>
+          <div class="room-card"><div class="room-icon">🖥️</div><div class="room-name">POST-PRODUCTION SUITE</div><div class="room-dim">80m²</div><div class="room-desc">10 editing bays (DaVinci Resolve, Premiere Pro). Colour grading theatre (4K reference monitor). Sound mixing suite with Atmos capability.</div></div>
+          <div class="room-card"><div class="room-icon">📷</div><div class="room-name">PHOTO STUDIO</div><div class="room-dim">60m²</div><div class="room-desc">Artist portrait and album cover studio. Cyclorama wall, full strobe kit, tethered shooting stations. Used for press packs, promo shoots, and editorial content.</div></div>
+          <div class="room-card"><div class="room-icon">🎨</div><div class="room-name">CREATIVE / ART DEPARTMENT</div><div class="room-dim">70m²</div><div class="room-desc">In-house design team workspace. Set design, costume, typography, and brand identity. Houses the Sky Enterprise visual archive.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLOOR 2 -->
+    <div class="floor-tab">
+      <div class="floor-header" onclick="toggleFloor(this)">
+        <div class="floor-num">02</div>
+        <div class="floor-info">
+          <div class="floor-title">FLOOR 2 — GRAND HALL BALCONY & TRAINING</div>
+          <div class="floor-rooms">HALL UPPER DECK · DANCE STUDIO 3 · ARTIST DEVELOPMENT · LIBRARY</div>
+        </div>
+        <div class="floor-toggle">▶</div>
+      </div>
+      <div class="floor-body">
+        <div class="floor-grid">
+          <div class="room-card"><div class="room-icon">🏆</div><div class="room-name">GRAND HALL UPPER BALCONY</div><div class="room-dim">800 SEATS</div><div class="room-desc">The balcony level of Sky Arena — elevated VIP seating sections with dedicated bar service, private booths for sponsors, and a press gallery with dedicated camera positions.</div></div>
+          <div class="room-card"><div class="room-icon">🩴</div><div class="room-name">DANCE STUDIO 3 — ROOFTOP VIEW</div><div class="room-dim">70m²</div><div class="room-desc">Compact conditioning room adjacent to Dance Studio 2. Yoga mats, resistance equipment, and mirrors. Used by dancers for warm-up, stretching, and physical conditioning.</div></div>
+          <div class="room-card"><div class="room-icon">🎓</div><div class="room-name">ARTIST DEVELOPMENT CENTRE</div><div class="room-dim">150m²</div><div class="room-desc">Sky's talent school. Vocal coaching, acting workshops, media training. Three classroom studios for the next generation of African artists. Sky Academy is run from here.</div></div>
+          <div class="room-card"><div class="room-icon">📚</div><div class="room-name">CREATIVE LIBRARY & LOUNGE</div><div class="room-dim">80m²</div><div class="room-desc">Curated music, film, and African arts library. Listening booths with headphones. A quiet space for artists in residence to read, study, and decompress.</div></div>
+          <div class="room-card"><div class="room-icon">🌍</div><div class="room-name">INTERNATIONAL RELATIONS OFFICE</div><div class="room-dim">50m²</div><div class="room-desc">Sky's international partnerships desk. Manages deals with global labels, film distributors, streaming platforms, and embassies. Secure video conferencing suite.</div></div>
+          <div class="room-card"><div class="room-icon">🍵</div><div class="room-name">ARTIST LOUNGE & KITCHEN</div><div class="room-dim">90m²</div><div class="room-desc">Private relaxation space for signed artists and their teams. Full kitchen, premium coffee bar, PlayStation, billiards table, and a quiet rest area. Strictly private.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLOOR 3 -->
+    <div class="floor-tab">
+      <div class="floor-header" onclick="toggleFloor(this)">
+        <div class="floor-num">03</div>
+        <div class="floor-info">
+          <div class="floor-title">FLOOR 3 — EXECUTIVE OFFICES</div>
+          <div class="floor-rooms">CEO · C-SUITE · BOARDROOM · A&R · LEGAL · FINANCE</div>
+        </div>
+        <div class="floor-toggle">▶</div>
+      </div>
+      <div class="floor-body">
+        <div class="floor-grid">
+          <div class="room-card"><div class="room-icon">👑</div><div class="room-name">CEO OFFICE</div><div class="room-dim">80m² PANORAMIC</div><div class="room-desc">The corner suite. Full-length windows overlooking Ngaoundéré city and the Adamawa highlands. Custom desk, private meeting table for 8, adjoining private bathroom and wardrobe.</div></div>
+          <div class="room-card"><div class="room-icon">💼</div><div class="room-name">C-SUITE WING</div><div class="room-dim">4 × 40m² OFFICES</div><div class="room-desc">Individual offices for CFO, COO, CCO (Chief Creative), and CTO. Each has city views, a private desk, and a 4-person meeting corner.</div></div>
+          <div class="room-card"><div class="room-icon">🏛️</div><div class="room-name">BOARDROOM — SKY CHAMBER</div><div class="room-dim">80m² · 20 SEATS</div><div class="room-desc">Flagship decision room. Long leather-inlay table, encrypted AV, simultaneous translation system, and the Sky Enterprise mission etched in the ceiling. Used for board meetings, partner negotiations, and annual planning.</div></div>
+          <div class="room-card"><div class="room-icon">🎤</div><div class="room-name">A&R DEPARTMENT</div><div class="room-dim">60m²</div><div class="room-desc">Artist & Repertoire team. Scouting stations, listening rooms, and artist development tracking. Connected directly to the production floor via internal staircase.</div></div>
+          <div class="room-card"><div class="room-icon">⚖️</div><div class="room-name">LEGAL DEPARTMENT</div><div class="room-dim">50m²</div><div class="room-desc">In-house legal counsel office. Contract vaults, confidential client rooms for artist signings, and IP / copyright management systems.</div></div>
+          <div class="room-card"><div class="room-icon">💰</div><div class="room-name">FINANCE DEPARTMENT</div><div class="room-dim">60m²</div><div class="room-desc">CFO support team. Accounting systems, royalty calculation, and budget management. Separate secure safe room for physical financial assets.</div></div>
+          <div class="room-card"><div class="room-icon">📣</div><div class="room-name">MARKETING & PR</div><div class="room-dim">70m²</div><div class="room-desc">Campaign teams, social media war room, and the Sky Press Office. Houses the brand team and the digital content creators who manage all Sky platforms.</div></div>
+          <div class="room-card"><div class="room-icon">🌐</div><div class="room-name">TECH & DIGITAL OPS</div><div class="room-dim">80m²</div><div class="room-desc">Master Control Room for all building systems. Live broadcast feeds, IT infrastructure, Sky streaming platform operations, and cybersecurity monitoring centre.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROOFTOP -->
+    <div class="floor-tab">
+      <div class="floor-header" onclick="toggleFloor(this)">
+        <div class="floor-num">R</div>
+        <div class="floor-info">
+          <div class="floor-title">ROOFTOP — SKY TERRACE</div>
+          <div class="floor-rooms">OPEN-AIR TERRACE · SKY BAR · HELIPAD · SOLAR FARM</div>
+        </div>
+        <div class="floor-toggle">▶</div>
+      </div>
+      <div class="floor-body">
+        <div class="floor-grid">
+          <div class="room-card"><div class="room-icon">🌅</div><div class="room-name">SKY TERRACE — EVENTS SPACE</div><div class="room-dim">800m² OPEN AIR</div><div class="room-desc">Open-air rooftop event venue with views of the Adamawa plateau. Hosts intimate concerts, album release parties, private dinners, and media launches. Retractable canopy for wet-season events.</div></div>
+          <div class="room-card"><div class="room-icon">🍹</div><div class="room-name">SKY BAR & LOUNGE</div><div class="room-dim">150m²</div><div class="room-desc">Premium bar and lounge. Cameroonian-inspired cocktails, premium wine list. Opens for events and select private bookings. The most exclusive seat in Ngaoundéré.</div></div>
+          <div class="room-card"><div class="room-icon">🚁</div><div class="room-name">HELIPAD</div><div class="room-dim">ICAO STANDARD</div><div class="room-desc">For VIP arrivals — international artists, investors, and government dignitaries. Night-lit, safety-compliant, and connected to a private elevator that bypasses all public floors.</div></div>
+          <div class="room-card"><div class="room-icon">☀️</div><div class="room-name">SOLAR ARRAY</div><div class="room-dim">400m² · 150KWp</div><div class="room-desc">Sky Enterprise's commitment to African sustainability. Monocrystalline panels power 40% of the building's energy. Battery backup powers studios in all conditions.</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ DEPARTMENTS ═══════════ -->
+<div class="section">
+  <div class="sec-label">◈ ORGANISATIONAL STRUCTURE</div>
+  <div class="sec-title">DEPARTMENTS</div>
+  <div class="sec-desc">Sky Enterprise operates across seven major divisions, each essential to the creative and commercial engine.</div>
+
+  <div class="dept-grid">
+    <div class="dept-card" style="--accent:var(--gold)">
+      <div class="dept-icon">🎵</div>
+      <div class="dept-name">MUSIC DIVISION</div>
+      <div class="dept-lead">HEAD OF MUSIC · REPORTS TO CEO</div>
+      <div class="dept-desc">Talent scouting, A&R, recording, mixing, mastering, distribution, and royalty management. Home of Sky Records — the label arm of the enterprise.</div>
+    </div>
+    <div class="dept-card" style="--accent:var(--orange)">
+      <div class="dept-icon">🎬</div>
+      <div class="dept-name">FILM & TV DIVISION</div>
+      <div class="dept-lead">HEAD OF FILM · REPORTS TO CEO</div>
+      <div class="dept-desc">Original series, films, documentaries, and music videos produced in-house. Sky Studios content distributed to African and global streaming platforms.</div>
+    </div>
+    <div class="dept-card" style="--accent:#ff44cc">
+      <div class="dept-icon">💃</div>
+      <div class="dept-name">PERFORMING ARTS</div>
+      <div class="dept-lead">DIRECTOR OF ARTS · REPORTS TO CCO</div>
+      <div class="dept-desc">Dance, theatre, and live performance. Manages Sky Academy, talent development, and performing arts programming. Backbone of Sky's live event productions.</div>
+    </div>
+    <div class="dept-card" style="--accent:var(--gold)">
+      <div class="dept-icon">🏆</div>
+      <div class="dept-name">EVENTS & AWARDS</div>
+      <div class="dept-lead">HEAD OF EVENTS · REPORTS TO COO</div>
+      <div class="dept-desc">Annual Sky Awards ceremony, concert programming, red carpet events, and private bookings. The Grand Hall is the department's primary stage.</div>
+    </div>
+    <div class="dept-card" style="--accent:var(--green)">
+      <div class="dept-icon">🌐</div>
+      <div class="dept-name">TECHNOLOGY & DIGITAL</div>
+      <div class="dept-lead">CTO · REPORTS TO CEO</div>
+      <div class="dept-desc">Sky's streaming platform, broadcast infrastructure, cybersecurity, and tech innovation. Manages all studio systems, MCR, and digital content pipelines.</div>
+    </div>
+    <div class="dept-card" style="--accent:var(--sky)">
+      <div class="dept-icon">📣</div>
+      <div class="dept-name">MARKETING & BRAND</div>
+      <div class="dept-lead">CCO · REPORTS TO CEO</div>
+      <div class="dept-desc">Sky's identity, artist branding, campaigns, social media, PR, and partnerships with global brands. Custodians of the Sky Enterprise image across Africa and beyond.</div>
+    </div>
+    <div class="dept-card" style="--accent:#aa88ff">
+      <div class="dept-icon">⚖️</div>
+      <div class="dept-name">LEGAL & FINANCE</div>
+      <div class="dept-lead">CFO + GENERAL COUNSEL · C-SUITE</div>
+      <div class="dept-desc">Contracts, intellectual property, royalties, investor relations, and financial governance. The backbone that protects Sky Enterprise's assets and ensures artist rights are honoured.</div>
+    </div>
+  </div>
+
+  <!-- ORG CHART -->
+  <div class="sec-label">◈ REPORTING STRUCTURE</div>
+  <div class="sec-title">ORGANISATIONAL CHART</div>
+  <div class="org-tree">
+    <div class="org-level">
+      <div class="org-node top">
+        <div class="on-title">FOUNDER & CEO</div>
+        <div class="on-sub">SKY ENTERPRISE HQ</div>
+      </div>
+    </div>
+    <div class="org-line"></div>
+    <div class="org-branch">
+      <div class="org-node"><div class="on-title">COO</div><div class="on-sub">Operations</div></div>
+      <div class="org-node"><div class="on-title">CFO</div><div class="on-sub">Finance & Legal</div></div>
+      <div class="org-node"><div class="on-title">CCO</div><div class="on-sub">Creative</div></div>
+      <div class="org-node"><div class="on-title">CTO</div><div class="on-sub">Technology</div></div>
+    </div>
+    <div class="org-line" style="height:16px;"></div>
+    <div class="org-level" style="gap:.5rem;">
+      <div class="org-node" style="min-width:110px"><div class="on-title">Music</div><div class="on-sub">Head of Music</div></div>
+      <div class="org-node" style="min-width:110px"><div class="on-title">Film & TV</div><div class="on-sub">Head of Film</div></div>
+      <div class="org-node" style="min-width:110px"><div class="on-title">Perf. Arts</div><div class="on-sub">Director Arts</div></div>
+      <div class="org-node" style="min-width:110px"><div class="on-title">Events</div><div class="on-sub">Head Events</div></div>
+      <div class="org-node" style="min-width:110px"><div class="on-title">Marketing</div><div class="on-sub">Brand Director</div></div>
+      <div class="org-node" style="min-width:110px"><div class="on-title">HR</div><div class="on-sub">HR Director</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TECH SPECS ═══════════ -->
+<div style="background:var(--panel2);padding:1rem 0;">
+<div class="section">
+  <div class="sec-label">◈ TECHNICAL SPECIFICATIONS</div>
+  <div class="sec-title">BUILD & EQUIPMENT SPECS</div>
+  <div class="sec-desc">World-class specifications designed for African conditions — heat, power reliability, and acoustic performance all considered.</div>
+
+  <div class="specs-grid">
+    <div class="spec-item">
+      <div class="spec-cat">🎙️ AUDIO SYSTEMS</div>
+      <ul class="spec-list">
+        <li>SSL 9000 J console (Studio A)</li>
+        <li>Neve 8078 console (Studio B)</li>
+        <li>Pro Tools HDX + Ableton Live</li>
+        <li>Genelec 1032C monitors</li>
+        <li>Full outboard gear (Neve, API, UA)</li>
+        <li>Dolby Atmos 7.1.4 in Grand Hall</li>
+      </ul>
+    </div>
+    <div class="spec-item">
+      <div class="spec-cat">🎬 FILM / VIDEO</div>
+      <ul class="spec-list">
+        <li>ARRI Alexa Mini LF fleet</li>
+        <li>Full LED volume wall (Stage A)</li>
+        <li>4K broadcast cameras (Stage B)</li>
+        <li>DaVinci Resolve colour suite</li>
+        <li>Satellite uplink for live broadcast</li>
+        <li>10Gbps fibre backbone</li>
+      </ul>
+    </div>
+    <div class="spec-item">
+      <div class="spec-cat">🏗️ BUILDING</div>
+      <ul class="spec-list">
+        <li>Reinforced concrete + steel frame</li>
+        <li>Low-E glass curtain wall façade</li>
+        <li>Floating acoustic studio boxes</li>
+        <li>Sprung maple floors in dance rooms</li>
+        <li>Seismic zone B compliance</li>
+        <li>LEED Silver target certification</li>
+      </ul>
+    </div>
+    <div class="spec-item">
+      <div class="spec-cat">⚡ POWER & INFRASTRUCTURE</div>
+      <ul class="spec-list">
+        <li>Dual 1.5MW diesel generators</li>
+        <li>150KWp rooftop solar array</li>
+        <li>600KWh lithium battery storage</li>
+        <li>APC UPS for all studio systems</li>
+        <li>3-phase 415V mains throughout</li>
+        <li>Dedicated studio earth bonding</li>
+      </ul>
+    </div>
+    <div class="spec-item">
+      <div class="spec-cat">🌡️ CLIMATE & ACOUSTICS</div>
+      <ul class="spec-list">
+        <li>Independent HVAC per studio zone</li>
+        <li>NRC 0.95 acoustic ceiling tiles</li>
+        <li>STC 65 partition walls (studios)</li>
+        <li>Anti-vibration studio mounts</li>
+        <li>External noise < 20dB NR in booth</li>
+        <li>RT60 optimised per room type</li>
+      </ul>
+    </div>
+    <div class="spec-item">
+      <div class="spec-cat">🔐 SECURITY & IT</div>
+      <ul class="spec-list">
+        <li>Biometric access to all studios</li>
+        <li>CCTV — 200+ cameras, 4K</li>
+        <li>Encrypted LAN + VPN</li>
+        <li>Redundant fibre ISP links</li>
+        <li>NAS + cloud backup (daily)</li>
+        <li>24/7 on-site security team</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <h3>SKY ENTERPRISE HQ — NGAOUNDÉRÉ, CAMEROON</h3>
+  <p>Built in Africa. Built for Africa. Built for the world. ✦</p>
+  <p style="margin-top:.4rem;font-size:.75rem;font-family:'Space Mono',monospace;color:#334455;letter-spacing:.15em;">ARCHITECTURAL CONCEPT DOCUMENT — CONFIDENTIAL INTERNAL USE</p>
+</footer>
+
+<script>
+// Floor toggle
+function toggleFloor(header){
+  const body = header.nextElementSibling;
+  const icon = header.querySelector('.floor-toggle');
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.floor-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.floor-toggle').forEach(i=>i.classList.remove('open'));
+  if(!isOpen){ body.classList.add('open'); icon.classList.add('open'); }
+}
+
+// Tooltip on site plan
+const tooltip = document.getElementById('tooltip');
+document.querySelectorAll('.sp-block').forEach(block=>{
+  block.addEventListener('mouseenter',e=>{
+    const tip = block.dataset.tip;
+    if(!tip) return;
+    tooltip.textContent = tip;
+    tooltip.style.display = 'block';
+  });
+  block.addEventListener('mousemove',e=>{
+    tooltip.style.left = (e.clientX+14)+'px';
+    tooltip.style.top  = (e.clientY-10)+'px';
+  });
+  block.addEventListener('mouseleave',()=>{
+    tooltip.style.display='none';
+  });
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.opacity='1';
+      e.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.05});
+document.querySelectorAll('.dept-card,.spec-item,.floor-tab').forEach(el=>{
+  el.style.opacity='0';
+  el.style.transform='translateY(20px)';
+  el.style.transition='opacity .6s ease, transform .6s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>

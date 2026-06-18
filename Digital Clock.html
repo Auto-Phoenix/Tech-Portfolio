@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Clock</title>
+<style>
+body{
+    display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	font-size: 50px;
+	font-family: Arial;
+}
+</style>
+</head>
+<body>
+
+<div id ="clock"></div>
+
+<script>
+function updateClock(){
+   let now = new Date();
+   document.getElementById("clock").innerHTML =
+      now.toLocalTimeString();
+}
+	setInterval(updateClock, 1000);
+	updateClock();
+</script>
+
+</body>
+</html>

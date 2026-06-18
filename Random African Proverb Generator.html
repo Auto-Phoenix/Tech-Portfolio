@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>African Proverb Generator</h2>
+
+<p id="proverb">Click the button</p>
+
+<button onclick="showProverb()">New Proverb</button>
+
+<script>
+let proverbs = [
+"The child who is not embraced by the village will burn it down to feel its 
+warmth.",
+"Wisdom is like a baobab tree; no one person can embrace it.",
+"When spider webs unite, they can tie up a lion.",
+"Rain does not fall on one roof alone."
+];
+
+function showProverb(){
+    let random = Math.floor(Math.random()*proverbs.length);
+	document.getElementById("proverb").innerHTML = proverbs[random];
+}
+</script>
+
+</body>
+</html>

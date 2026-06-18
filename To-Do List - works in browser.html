@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Neo Task List</title>
+   <style>
+      body{
+	    font-family: Arial;
+		background: #0f172a;
+		color: white;
+		text-align: center;
+		margin-top: 50px;
+	  }
+	  input{
+	    padding: 10px;
+		width: 250px;
+	  }
+	  button{
+	    padding: 10px;
+		cursor: pointer;
+	  }
+	  li{
+	    list-style: none;
+		margin: 10px;
+		padding: 10px;
+		background: #1e293b;
+		width: 300px;
+		margin-left: auto;
+		margin-right: auto;
+	  }
+	</style>
+  </head>
+  <body>
+  
+  <h1> # My Future Tasks</h1>
+  
+  <input id="taskInput" placeholder="Write something..."/>
+  <button onclick="addTask()">Add</button>
+  
+  <ul id="list"></ul>
+  
+  <script>
+  function addTask(){
+    let input = document.getElementById("taskInput");
+	let list = document.getElementById("list");
+	
+	if(input.value.trim() !== ""){
+	  let li = document.createElement("li");
+	  li.innerText = input.value;
+	  input.vaue = "";
+	}
+}
+</script>
+
+</body>
+</html>
